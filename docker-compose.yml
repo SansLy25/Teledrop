@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   db:
     image: postgres:13
@@ -35,7 +37,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "8080:8080"
+      - "3333:3333"
     depends_on:
       - api
     volumes:
