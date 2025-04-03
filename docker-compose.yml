@@ -5,8 +5,8 @@ services:
     image: postgres:13
     environment:
       POSTGRES_DB: db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     networks:
@@ -19,29 +19,46 @@ services:
       start_period: 10s
 
   api:
-    build: .
+    build: backend/
     environment:
       POSTGRES_HOST: db
       POSTGRES_DB: db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DJANGO_DEBUG: ${DJANGO_DEBUG}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+
     depends_on:
       db:
         condition: service_healthy
     volumes:
-      - ./src/media:/src/media
+      - ./src/media:/app/src/media
     networks:
       - main
+
+  mini_app:
+    build: mini_app/
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=/api/
+    volumes:
+      - ./mini_app:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    networks:
+      main:
+    restart: unless-stopped
 
   nginx:
     build: ./nginx
     ports:
-      - "3333:3333"
+      - "3333:80"
     depends_on:
-      - api
+      - mini_app
     volumes:
-      - ./src/media:/src/media
+      - ./src/media:/app/src/media
     networks:
       - main
 

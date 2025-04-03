@@ -4,20 +4,23 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from telegram_webapp_auth.auth import generate_secret_key
+from conf.utils import load_bool
+
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-v$00+1_hqnx+mgckh%f&@7=$ob0xvevyts#bar7x2u8+mwyy5b'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "cat")
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_SECRET_KEY = generate_secret_key(TELEGRAM_BOT_TOKEN)
 
-DEBUG = True
 CORS_ALLOW_ALL_ORIGINS = True
 
-ALLOWED_HOSTS = ['*']
+DEBUG = load_bool("DJANGO_DEBUG", False)
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(",")
 
 INSTALLED_APPS = [
     'storage.apps.StorageConfig',
