@@ -165,6 +165,7 @@ cython_debug/
 
 # dependencies
 /node_modules
+/mini_app/node_modules
 /.pnp
 .pnp.js
 
