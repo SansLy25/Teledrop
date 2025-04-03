@@ -1,3 +1,5 @@
+from enum import unique
+
 from django.db import models
 from django.contrib.auth.models import (
     AbstractUser,
@@ -19,7 +21,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     email = models.EmailField(unique=True, null=True, blank=True)
     password = models.CharField(max_length=200, null=True, blank=True)
-    telegram_id = models.IntegerField()
+    telegram_id = models.BigIntegerField(unique=True)
     telegram_username = models.CharField(null=True, blank=True)
     first_name = models.CharField(null=True, blank=True)
     last_name = models.CharField(null=True, blank=True)
