@@ -22,7 +22,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-TELEGRAM_WEBHOOK_URL = 'https://310c-46-17-102-34.ngrok-free.app/api/telegram/bot/webhook'
+TELEGRAM_WEBHOOK_URL = 'https://teledrop.ru/api/telegram/bot/webhook'
 
 INSTALLED_APPS = [
     'storage.apps.StorageConfig',
