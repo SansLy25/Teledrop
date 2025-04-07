@@ -1,5 +1,4 @@
 import json
-from ast import parse
 from urllib.parse import unquote, parse_qs
 
 from rest_framework import serializers

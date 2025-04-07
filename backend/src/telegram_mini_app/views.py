@@ -1,10 +1,9 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from telegram.auth import TelegramInitDataAuth
+from telegram_mini_app.auth import TelegramInitDataAuth
 
 
 class PrimaryTelegramAuthView(GenericAPIView):

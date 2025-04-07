@@ -2,7 +2,7 @@ from drf_spectacular.extensions import OpenApiAuthenticationExtension
 
 
 class TelegramInitDataAuthenticationScheme(OpenApiAuthenticationExtension):
-    target_class = 'telegram.auth.TelegramInitDataAuth'
+    target_class = 'telegram_mini_app.auth.TelegramInitDataAuth'
     name = 'telegramMiniAppsAuth'
 
     def get_security_definition(self, auto_schema):

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from telegram import views
+from telegram_mini_app import views
 
 urlpatterns = [
     path("auth/verify", views.PrimaryTelegramAuthView.as_view())

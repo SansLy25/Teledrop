@@ -18,14 +18,17 @@ TELEGRAM_SECRET_KEY = generate_secret_key(TELEGRAM_BOT_TOKEN)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-DEBUG = load_bool("DJANGO_DEBUG", False)
+DEBUG = True
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(",")
+ALLOWED_HOSTS = ['*']
+
+TELEGRAM_WEBHOOK_URL = 'https://310c-46-17-102-34.ngrok-free.app/api/telegram/bot/webhook'
 
 INSTALLED_APPS = [
     'storage.apps.StorageConfig',
     'users.apps.UsersConfig',
-    'telegram.apps.TelegramConfig',
+    'telegram_mini_app.apps.TelegramConfig',
+    'telegram_bot.apps.TelegramBotConfig',
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
@@ -41,13 +44,12 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'telegram.auth.TelegramInitDataAuth'
+        'telegram_mini_app.auth.TelegramInitDataAuth'
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
