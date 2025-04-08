@@ -9,17 +9,18 @@ from aiogram import Bot
 
 from django.conf import settings
 
+
 @csrf_exempt
 async def webhook(request):
     if request.method == "POST":
         try:
-            header_token = request.headers.get('X-Telegram-Bot-Api-Secret-Token', None)
+            header_token = request.headers.get("X-Telegram-Bot-Api-Secret-Token", None)
             if header_token != settings.SECRET_KEY:
                 return HttpResponse(status=403)
 
-            dp = apps.get_app_config('telegram_bot').dp
+            dp = apps.get_app_config("telegram_bot").dp
 
-            raw_data = request.body.decode('utf-8')
+            raw_data = request.body.decode("utf-8")
             update = Update.model_validate_json(raw_data)
 
             await dp.feed_update(bot=Bot(settings.TELEGRAM_BOT_TOKEN), update=update)
