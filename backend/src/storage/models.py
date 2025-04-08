@@ -1,6 +1,6 @@
 from django.db import models
 
-from conf import settings
+from django.conf import settings
 
 
 class Folder(models.Model):
@@ -14,18 +14,18 @@ class Folder(models.Model):
     )
 
     owner = models.ForeignKey(
-        'User',
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='all_owned_folders',
     )
 
     users_with_editing_access = models.ManyToManyField(
-        'User',
+        settings.AUTH_USER_MODEL,
         related_name='shared_editable_folders',
     )
 
     users_with_view_access = models.ManyToManyField(
-        'User',
+        settings.AUTH_USER_MODEL,
         related_name='shared_viewable_folders',
     )
 
@@ -69,6 +69,10 @@ class File(models.Model):
         on_delete=models.CASCADE,
         related_name='files',
     )
+
+    @property
+    def path(self):
+        return self.parent.path + self.name
 
     def save(self, *args, **kwargs):
         self.type = None
