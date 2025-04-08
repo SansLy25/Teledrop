@@ -1,4 +1,6 @@
-from aiogram import Dispatcher, Bot
+from aiogram import Dispatcher
+from asgiref.sync import async_to_sync
+
 from django.apps import AppConfig
 
 
@@ -12,7 +14,12 @@ class TelegramBotConfig(AppConfig):
             return
 
         self.dp = Dispatcher()
-        self.bot = Bot(token=settings.TELEGRAM_BOT_TOKEN)
 
         from telegram_bot.handlers.commands import router
         self.dp.include_router(router)
+        self.set_webhook(settings.TELEGRAM_WEBHOOK_URL,
+                         settings.SECRET_KEY)
+
+    def set_webhook(self, url, token):
+        from telegram_bot.bot import bot
+        async_to_sync(bot.set_webhook)(url, secret_token=token)

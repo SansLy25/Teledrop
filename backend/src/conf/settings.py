@@ -18,11 +18,11 @@ TELEGRAM_SECRET_KEY = generate_secret_key(TELEGRAM_BOT_TOKEN)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'false').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
-TELEGRAM_WEBHOOK_URL = 'https://teledrop.ru/api/telegram/bot/webhook'
+TELEGRAM_WEBHOOK_URL = os.getenv('TELEGRAM_WEBHOOK_URL')
 
 INSTALLED_APPS = [
     'storage.apps.StorageConfig',
