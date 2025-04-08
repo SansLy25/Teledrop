@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from telegram_webapp_auth.auth import generate_secret_key
 from conf.utils import load_bool
 
-
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,66 +17,66 @@ TELEGRAM_SECRET_KEY = generate_secret_key(TELEGRAM_BOT_TOKEN)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-DEBUG = os.getenv('DJANGO_DEBUG', 'false').lower() == 'true'
+DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(",")
 
-TELEGRAM_WEBHOOK_URL = os.getenv('TELEGRAM_WEBHOOK_URL')
+TELEGRAM_WEBHOOK_URL = os.getenv("TELEGRAM_WEBHOOK_URL")
 
 INSTALLED_APPS = [
-    'storage.apps.StorageConfig',
-    'users.apps.UsersConfig',
-    'telegram_mini_app.apps.TelegramConfig',
-    'telegram_bot.apps.TelegramBotConfig',
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'drf_spectacular',
-    'corsheaders',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "storage.apps.StorageConfig",
+    "users.apps.UsersConfig",
+    "telegram_mini_app.apps.TelegramConfig",
+    "telegram_bot.apps.TelegramBotConfig",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "drf_spectacular",
+    "corsheaders",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'telegram_mini_app.auth.TelegramInitDataAuth'
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "telegram_mini_app.auth.TelegramInitDataAuth",
     ),
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'conf.urls'
+ROOT_URLCONF = "conf.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'conf.wsgi.application'
+WSGI_APPLICATION = "conf.wsgi.application"
 
 DATABASES = {
     "default": {
@@ -95,16 +94,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -135,9 +134,9 @@ SIMPLE_JWT = {
     "USER_ID_CLAIM": "user_id",
 }
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -145,8 +144,71 @@ USE_TZ = True
 
 APPEND_SLASH = False
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+FILE_TYPES = [
+    {
+        "type": "image",
+        "verbose": "Изображение",
+        "extensions": [
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+            ".bmp",
+            ".webp",
+            ".svg",
+            ".tiff",
+        ],
+    },
+    {
+        "type": "spreadsheet",
+        "verbose": "Электронная таблица",
+        "extensions": [".xls", ".xlsx", ".ods", ".csv"],
+    },
+    {
+        "type": "video",
+        "verbose": "Видео",
+        "extensions": [".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv", ".webm"],
+    },
+    {
+        "type": "archive",
+        "verbose": "Архив",
+        "extensions": [".zip", ".rar", ".7z", ".tar", ".gz", ".bz2"],
+    },
+    {
+        "type": "document",
+        "verbose": "Текстовый документ",
+        "extensions": [".doc", ".docx", ".odt", ".rtf", ".txt", ".pdf"],
+    },
+    {
+        "type": "presentation",
+        "verbose": "Презентация",
+        "extensions": [".ppt", ".pptx", ".odp"],
+    },
+    {
+        "type": "audio",
+        "verbose": "Аудио",
+        "extensions": [".mp3", ".wav", ".ogg", ".flac", ".aac", ".m4a"],
+    },
+    {
+        "type": "code",
+        "verbose": "Исходный код",
+        "extensions": [
+            ".py",
+            ".js",
+            ".html",
+            ".css",
+            ".java",
+            ".cpp",
+            ".php",
+            ".json",
+            ".xml",
+        ],
+    },
+    {"type": "other", "verbose": "Другой", "extensions": []},
+]
