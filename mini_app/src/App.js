@@ -8,7 +8,7 @@ function App() {
     useEffect(() => {
         const data = window.Telegram.WebApp.initData;
 
-        fetch('https://teledrop.ru/api/telegram/auth/verify', {
+        fetch('/api/telegram/mini_app/auth/verify', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

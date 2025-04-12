@@ -15,9 +15,12 @@ class TelegramBotConfig(AppConfig):
 
         self.dp = Dispatcher()
 
-        from telegram_bot.handlers.commands import router
-        self.dp.include_router(router)
-        self.set_webhook(settings.TELEGRAM_WEBHOOK_URL,
+        from telegram_bot.handlers import commands, base, conversation
+        self.dp.include_router(commands.router)
+        self.dp.include_router(base.router)
+        self.dp.include_router(conversation.router)
+
+        self.set_webhook(f'https://{settings.HOST_NAME}/api/telegram/bot/webhook',
                          settings.SECRET_KEY)
 
     def set_webhook(self, url, token):
