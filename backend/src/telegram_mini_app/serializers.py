@@ -26,12 +26,15 @@ class TelegramAuthSerializer(serializers.Serializer):
     @staticmethod
     def parse_init_data(data):
         try:
-            parsed_data = parse_qs(unquote(data.get('init_data', '')))
+            parsed_data = parse_qs(unquote(data.get("init_data", "")))
             for key in parsed_data:
                 parsed_data[key] = parsed_data[key][0]
 
-            parsed_data['user'] = {key: value for key, value in
-                                   json.loads(parsed_data['user']).items() if value != ''}
+            parsed_data["user"] = {
+                key: value
+                for key, value in json.loads(parsed_data["user"]).items()
+                if value != ""
+            }
 
         except (json.JSONDecodeError, ValueError, IndexError, KeyError):
             raise ValidationError("Parse init_data error")
