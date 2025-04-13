@@ -2,6 +2,7 @@ from django.http import Http404
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import RetrieveAPIView, GenericAPIView
 from rest_framework import mixins
+from rest_framework.response import Response
 
 from storage import serializers
 from storage.models import Folder
@@ -43,6 +44,15 @@ class FolderView(
         current_folder = self.get_object()
         return {"current_folder": current_folder}
 
+    def retrieve(self, request, *args, **kwargs):
+        user = request.user
+        instance = self.get_object()
+        user.current_folder = instance
+        user.save()
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
@@ -54,3 +64,14 @@ class FolderView(
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class CurrentFolderView(RetrieveAPIView):
+    serializer_class = serializers.FolderSerializer
+    def get_object(self):
+        user = self.request.user
+        if user.current_folder is None:
+            user.current_folder = user.root_folder
+            user.save()
+
+        return user.current_folder

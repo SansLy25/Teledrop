@@ -21,6 +21,7 @@ class UserManager(models.Manager):
         return user
 
 
+
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True, null=True, blank=True)
     password = models.CharField(max_length=200, null=True, blank=True)
@@ -30,11 +31,15 @@ class User(AbstractBaseUser):
     last_name = models.CharField(null=True, blank=True)
     language_code = models.CharField(null=True, blank=True)
     root_folder = models.OneToOneField(
-        Folder, on_delete=models.CASCADE, related_name="user_root"
+        Folder,
+        on_delete=models.CASCADE,
+        related_name="user_root",
+        null=True,
+        default=None
     )
     current_folder = models.ForeignKey(
         Folder,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="current_users",
         null=True,
         blank=True,
@@ -46,12 +51,3 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-        if not hasattr(self, "root_folder") and not Folder.objects.filter(
-            owner=self, parent__isnull=True
-        ):
-            self.root_folder = Folder.objects.create(name="", owner=self)
-
-        super().save()
