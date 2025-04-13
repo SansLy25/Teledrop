@@ -16,17 +16,17 @@ class Folder(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='all_owned_folders',
+        related_name="all_owned_folders",
     )
 
     users_with_editing_access = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        related_name='shared_editable_folders',
+        related_name="shared_editable_folders",
     )
 
     users_with_view_access = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        related_name='shared_viewable_folders',
+        related_name="shared_viewable_folders",
     )
 
     @property
@@ -37,7 +37,7 @@ class Folder(models.Model):
             path_segments.append(folder.name)
             folder = folder.parent
 
-        return '/' + '/'.join(path_segments[::-1]) + '/'
+        return "/" + "/".join(path_segments[::-1])
 
     def set_parent_owner(self):
         self.owner = self.parent.owner
@@ -46,7 +46,7 @@ class Folder(models.Model):
         return self.parent is None
 
     def save(self, *args, **kwargs):
-        if self.owner is None:
+        if not hasattr(self, "owner"):
             self.set_parent_owner()
 
         super().save(*args, **kwargs)
@@ -59,15 +59,13 @@ class File(models.Model):
     telegram_id = models.BigIntegerField()
     size = models.IntegerField()
     type = models.CharField(
-        choices=([(type["type"],
-                   type["verbose"])
-                  for type in TYPES]),
+        choices=([(type["type"], type["verbose"]) for type in TYPES]),
     )
 
     parent = models.ForeignKey(
         Folder,
         on_delete=models.CASCADE,
-        related_name='files',
+        related_name="files",
     )
 
     @property

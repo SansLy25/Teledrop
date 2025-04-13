@@ -32,6 +32,7 @@ function App() {
                 <h1>
                     {userData ? JSON.stringify(userData) : 'Загрузка...'}
                 </h1>
+                <p>{window.Telegram.WebApp.initData}</p>
                 <a
                     className="App-link"
                     href="https://reactjs.org"
