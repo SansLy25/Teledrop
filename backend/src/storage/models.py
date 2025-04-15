@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.conf import settings
+from django.http import Http404
 
 
 class Folder(models.Model):
@@ -88,3 +89,13 @@ class File(models.Model):
             self.type = "other"
 
         super().save(*args, **kwargs)
+
+
+class FileVersion(models.Model):
+    version = models.IntegerField()
+    telegram_file_id = models.BigIntegerField()
+    file = models.ForeignKey(
+        File,
+        related_name='versions',
+        on_delete=models.CASCADE
+    )

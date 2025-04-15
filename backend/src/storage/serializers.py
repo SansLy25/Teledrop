@@ -34,7 +34,7 @@ class FolderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Folder
         fields = ["id", "folders", "files", "name", "path", "is_root", "parent"]
-        read_only_fields = ["parent", "folders", "files", "parent"]
+        read_only_fields = ["parent", "folders", "files", "parent", 'id']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -58,3 +58,22 @@ class FolderSerializer(serializers.ModelSerializer):
         self.check_name_conflicts(name, parent)
         validated_data["parent"] = parent
         return super().create(validated_data)
+
+
+class FolderMoveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Folder
+        fields = ['parent']
+
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = ['id', 'parent', 'size', 'type', 'name', 'path']
+        read_only_fields = ['id', 'size', 'type', 'path', 'parent']
+
+
+class FileMoveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = ['parent']
