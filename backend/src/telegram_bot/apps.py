@@ -24,11 +24,11 @@ class TelegramBotConfig(AppConfig):
             storage=DjangoCacheStorage() if settings.CACHES else MemoryStorage()
         )
 
-        from telegram_bot.handlers import commands, base, conversation, test_state_storage
+        from telegram_bot.handlers import commands, base, conversation
 
         self.dp.include_router(commands.router)
         self.dp.include_router(conversation.router)
-        self.dp.include_router(test_state_storage.dialog_router)
+        self.dp.include_router(base.router)
 
         self.set_webhook(
             f"https://{settings.HOST_NAME}/api/telegram/bot/webhook",
