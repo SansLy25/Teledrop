@@ -12,7 +12,7 @@ services:
     networks:
       - main
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d db"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,13 +27,15 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
       HOST_NAME: ${HOST_NAME}
+      REDIS_USER: ${REDIS_USER}
 
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+      - redis
     volumes:
-      - ./src/media:/app/src/media
+      - ./backend/src/media:/app/src/media
     networks:
       - main
 
@@ -64,12 +66,19 @@ services:
 
   redis:
     image: redis:6
+    # environment:
+      # REDIS_PASSWORD: ${REDIS_PASSWORD}
+      # REDIS_USER: ${REDIS_USER}
+    restart: always
+    volumes:
+      - redis_data:/redis/data
     networks:
       - main
 
 
 volumes:
   teledrop_postgres_data:
+  redis_data:
 
 networks:
   main:

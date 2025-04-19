@@ -1,4 +1,5 @@
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -21,7 +22,6 @@ DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
 HOST_NAME = os.getenv("HOST_NAME")
 
 ALLOWED_HOSTS = [HOST_NAME, "localhost"]
-
 
 INSTALLED_APPS = [
     "storage.apps.StorageConfig",
@@ -89,8 +89,13 @@ DATABASES = {
     }
 }
 
-# TODO: Добавить кэш (Redis)
-# CACHES = {}
+if 'makemigrations' not in sys.argv:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": f"redis://redis:6379/",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -173,7 +178,8 @@ FILE_TYPES = [
     {
         "type": "video",
         "verbose": "Видео",
-        "extensions": [".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv", ".webm"],
+        "extensions": [".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv",
+                       ".webm"],
     },
     {
         "type": "archive",

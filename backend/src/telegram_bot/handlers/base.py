@@ -14,4 +14,10 @@ router = Router()
     })
 )
 async def file_create(message: types.Message):
-    await message.answer("Это файл")
+
+
+    try:
+        print(file.file_name)
+    except Exception:
+        print(file.file_id)
+

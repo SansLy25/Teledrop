@@ -1,7 +1,12 @@
 from aiogram import Dispatcher
+import asyncio
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage
 from asgiref.sync import async_to_sync
 
 from django.apps import AppConfig
+
+from telegram_bot.storage import DjangoCacheStorage
 
 
 class TelegramBotConfig(AppConfig):
@@ -14,13 +19,16 @@ class TelegramBotConfig(AppConfig):
         if not hasattr(settings, "TELEGRAM_BOT_TOKEN"):
             return
 
-        self.dp = Dispatcher()
 
-        from telegram_bot.handlers import commands, base, conversation
+        self.dp = Dispatcher(
+            storage=DjangoCacheStorage() if settings.CACHES else MemoryStorage()
+        )
+
+        from telegram_bot.handlers import commands, base, conversation, test_state_storage
 
         self.dp.include_router(commands.router)
-        self.dp.include_router(base.router)
         self.dp.include_router(conversation.router)
+        self.dp.include_router(test_state_storage.dialog_router)
 
         self.set_webhook(
             f"https://{settings.HOST_NAME}/api/telegram/bot/webhook",

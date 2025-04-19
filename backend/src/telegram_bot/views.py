@@ -1,6 +1,10 @@
+import asyncio
 import json
 
-from celery.bin.control import status
+from aiogram.fsm.middleware import FSMContextMiddleware
+from aiogram.fsm.storage.memory import DisabledEventIsolation
+from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.strategy import FSMStrategy
 from django.http import HttpResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.apps import apps
