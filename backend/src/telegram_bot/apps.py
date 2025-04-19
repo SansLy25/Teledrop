@@ -19,7 +19,6 @@ class TelegramBotConfig(AppConfig):
         if not hasattr(settings, "TELEGRAM_BOT_TOKEN"):
             return
 
-
         self.dp = Dispatcher(
             storage=DjangoCacheStorage() if settings.CACHES else MemoryStorage()
         )

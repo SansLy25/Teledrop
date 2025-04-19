@@ -2,6 +2,7 @@ import json
 from aiogram import types
 from aiogram.enums import ContentType
 
+
 class FileCRUDService:
     pass
 
@@ -24,11 +25,5 @@ class FileUtilsService:
     @staticmethod
     async def serialize_file(file: types.downloadable.Downloadable):
         return json.dumps(
-            {
-                "id": file.file_id,
-                "size": file.file_size,
-                "name": file.
-            }
+            {"id": file.file_id, "size": file.file_size, "name": file.dasd}
         )
-
-

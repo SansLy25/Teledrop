@@ -94,8 +94,4 @@ class File(models.Model):
 class FileVersion(models.Model):
     version = models.IntegerField()
     telegram_file_id = models.BigIntegerField()
-    file = models.ForeignKey(
-        File,
-        related_name='versions',
-        on_delete=models.CASCADE
-    )
+    file = models.ForeignKey(File, related_name="versions", on_delete=models.CASCADE)

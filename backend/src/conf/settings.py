@@ -89,7 +89,7 @@ DATABASES = {
     }
 }
 
-if 'makemigrations' not in sys.argv:
+if "makemigrations" not in sys.argv:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
@@ -178,8 +178,7 @@ FILE_TYPES = [
     {
         "type": "video",
         "verbose": "Видео",
-        "extensions": [".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv",
-                       ".webm"],
+        "extensions": [".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv", ".webm"],
     },
     {
         "type": "archive",

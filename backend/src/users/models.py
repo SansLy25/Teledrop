@@ -21,7 +21,6 @@ class UserManager(models.Manager):
         return user
 
 
-
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True, null=True, blank=True)
     password = models.CharField(max_length=200, null=True, blank=True)
@@ -35,7 +34,7 @@ class User(AbstractBaseUser):
         on_delete=models.CASCADE,
         related_name="user_root",
         null=True,
-        default=None
+        default=None,
     )
     current_folder = models.ForeignKey(
         Folder,
@@ -50,4 +49,3 @@ class User(AbstractBaseUser):
     objects = UserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-
